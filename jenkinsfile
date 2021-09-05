@@ -34,7 +34,7 @@ pipeline{
             steps{
                 script{
                     PRIVATE_IP = sh (
-                    script: "sudo terraform output -json private_ip | jq -r '.[0]'",
+                    script: "terraform output -json private_ip | jq -r '.[0]'",
                     returnStdout: true
                     ).trim()
 
