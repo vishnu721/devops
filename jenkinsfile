@@ -32,12 +32,15 @@ pipeline{
 
         stage("Read TF Output"){
             steps{
-                PRIVATE_IP = sh (
+                script{
+                    PRIVATE_IP = sh (
                     script: "terraform output -json private_ip | jq -r '.[0]'",
                     returnStdout: true
                     ).trim()
 
-                    println(${PRIVATE_IP})
+                    println("${PRIVATE_IP}")
+                }
+                
             }
         }
       
