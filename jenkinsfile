@@ -10,7 +10,7 @@ pipeline{
         
         stage('Provision Ec2 instance'){
             steps {
-                sh "PATH=/usr/bin/terraform"
+                
                 sh "terraform init"
                 sh "terraform plan"
             }
@@ -27,6 +27,12 @@ pipeline{
         stage("Apply Terraform"){
             steps{
                 sh "terraform apply -input=false"
+            }
+        }
+
+        stage("Read TF Output"){
+            steps{
+                sh "terraform output -raw private_ip"
             }
         }
       
