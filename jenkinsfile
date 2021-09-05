@@ -11,8 +11,8 @@ pipeline{
         stage('Provision Ec2 instance'){
             steps {
                 
-                sh "sudo terraform init"
-                sh "sudo terraform plan"
+                sh "terraform init"
+                sh "terraform plan"
             }
         }
 
@@ -26,7 +26,7 @@ pipeline{
 
         stage("Apply Terraform"){
             steps{
-                sh "sudo terraform apply -input=false -auto-approve"
+                sh "terraform apply -input=false -auto-approve"
             }
         }
 
