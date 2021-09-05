@@ -10,6 +10,7 @@ pipeline{
         
         stage('Provision Ec2 instance'){
             steps {
+                sh "PATH=/usr/bin/terraform"
                 sh "terraform init"
                 sh "terraform plan"
             }
