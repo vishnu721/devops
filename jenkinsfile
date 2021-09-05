@@ -11,8 +11,8 @@ pipeline{
         stage('Provision Ec2 instance'){
             steps {
                 
-                sh "terraform init"
-                sh "terraform plan"
+                sh "sudo terraform init"
+                sh "sudo terraform plan"
             }
         }
 
@@ -26,7 +26,7 @@ pipeline{
 
         stage("Apply Terraform"){
             steps{
-                sh "terraform apply -input=false -auto-approve"
+                sh "sudo terraform apply -input=false -auto-approve"
             }
         }
 
@@ -34,7 +34,7 @@ pipeline{
             steps{
                 script{
                     PRIVATE_IP = sh (
-                    script: "terraform output -json private_ip | jq -r '.[0]'",
+                    script: "sudo terraform output -json private_ip | jq -r '.[0]'",
                     returnStdout: true
                     ).trim()
 
