@@ -1,6 +1,10 @@
 pipeline{
     agents any
     stages{
+
+        stage("Clone repo"){
+            git branch: 'main', url: 'https://github.com/vishnu721/devops.git'
+        }
         
         stage('Provision Ec2 instance'){
             steps {
@@ -21,6 +25,10 @@ pipeline{
             steps{
                 sh "terraform apply -input=false"
             }
+        }
+
+        stage("Ansible Playbook"){
+
         }
 
         
