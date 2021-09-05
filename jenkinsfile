@@ -1,0 +1,28 @@
+pipeline{
+    agents any
+    stages{
+        
+        stage('Provision Ec2 instance'){
+            steps {
+                sh "terraform init"
+                sh "terraform plan"
+            }
+        }
+
+        stage('Approval'){
+            steps{
+                script{
+                    def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])    
+                }
+            }
+        }
+
+        stage("Apply Terraform"){
+            steps{
+                sh "terraform apply -input=false"
+            }
+        }
+
+        
+    }
+}
