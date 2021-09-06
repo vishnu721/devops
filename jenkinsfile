@@ -33,12 +33,12 @@ pipeline{
         stage("Read TF Output"){
             steps{
                 script{
-                    PRIVATE_IP = sh (
-                    script: "terraform output -json private_ip | jq -r '.[0]'",
+                    PUBLIC_IP = sh (
+                    script: "terraform output -json public_ip | jq -r '.[0]'",
                     returnStdout: true
                     ).trim()
 
-                    println("${PRIVATE_IP}")
+                    println("${PUBLIC_IP}")
                 }
                 
             }
@@ -46,16 +46,15 @@ pipeline{
 
         stage("Run Ansible Playbook"){
             steps{
-                sh "ansible-playbook -u ec2-user --private-key /var/lib/jenkins/workspace/webserver-pipeline/cloud.pem -i '${PRIVATE_IP}' provision_web.yml"
-
+                sh "ansible-playbook -u ubuntu --private-key /var/lib/jenkins/workspace/webserver-pipeline/Ubuntu.pem -i '${PUBLIC_IP}', provision_web.yml"
             }
         }
-
+        /*
         stage("Clean WS"){
             steps{
                 cleanWs cleanWhenAborted: false, cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenUnstable: false
             }
-        }
-      
+        }  
+        */ 
     }
 }

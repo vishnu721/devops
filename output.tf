@@ -1,4 +1,4 @@
-output "private_ip" {
-  value       = aws_instance.webserver.*.private_ip
-  description = "Private IP of instance."
+output "public_ip" {
+  value       = aws_instance.webserver.*.public_ip
+  description = "Public IP of instance."
 }
