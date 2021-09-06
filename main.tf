@@ -17,16 +17,23 @@ resource "aws_instance" "webserver" {
 resource "tls_private_key" "ec2_private_key" {
     algorithm = "RSA"
     rsa_bits  = 4096
-    provisioner "local-exec" {
-      command = "echo '${tls_private_key.ec2_private_key.private_key_pem}' > /var/lib/jenkins/workspace/webserver-pipeline/${aws_instance.webserver.key_name}.pem"
-    }
+    #provisioner "local-exec" {
+      #command = "echo '${tls_private_key.ec2_private_key.private_key_pem}' > /var/lib/jenkins/workspace/webserver-pipeline/${aws_instance.webserver.key_name}.pem"
+    #}
 }
 
-resource "null_resource" "key-perm" {
-    depends_on = [
-      tls_private_key.ec2_private_key,
-    ]
-    provisioner "local-exec" {
-      command = "chmod 400 /var/lib/jenkins/workspace/webserver-pipeline/${aws_instance.webserver.key_name}.pem"
-    }
+resource "local_file" "ssh_pem" {
+  filename = "/var/lib/jenkins/workspace/webserver-pipeline/cloud.pem"
+  content = tls_private_key.ec2_private_key.private_key_pem
+  file_permission = 400
+  
 }
+
+#resource "null_resource" "key-perm" {
+ #   depends_on = [
+  #    tls_private_key.ec2_private_key,
+   # ]
+    #provisioner "local-exec" {
+    #  command = "chmod 400 /var/lib/jenkins/workspace/webserver-pipeline/${aws_instance.webserver.key_name}.pem"
+    #}
+#}

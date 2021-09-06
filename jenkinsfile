@@ -46,8 +46,14 @@ pipeline{
 
         stage("Run Ansible Playbook"){
             steps{
-                sh "ansible-playbook -u ec2-user --private-key LinuxServer.pem -i '${PRIVATE_IP}' provision_web.yml"
+                sh "ansible-playbook -u ec2-user --private-key /var/lib/jenkins/workspace/webserver-pipeline/cloud.pem -i '${PRIVATE_IP}' provision_web.yml"
 
+            }
+        }
+
+        stage{"Clean WS"}{
+            steps{
+                cleanWs cleanWhenAborted: false, cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenUnstable: false
             }
         }
       
