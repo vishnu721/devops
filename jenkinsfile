@@ -46,7 +46,13 @@ pipeline{
 
         stage("Run Ansible Playbook"){
             steps{
-                sh "ansible-playbook -u ubuntu --private-key /var/lib/jenkins/workspace/webserver-pipeline/Ubuntu.pem -i '${PUBLIC_IP}', provision_web.yml"
+                sh "sudo ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --private-key /var/lib/jenkins/workspace/webserver-pipeline/Ubuntu.pem -i '${PUBLIC_IP}', provision_web.yml"
+            }
+        }
+
+        stage("Docker nginx"){
+            steps{
+                sh "sudo docker run --name my-nginx -v /var/www/html:/usr/share/nginx/html:ro -d -p 9080:80 nginx"
             }
         }
         /*
