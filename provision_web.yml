@@ -24,7 +24,12 @@
         systemctl start docker
         systemctl enable docker
       become: yes
-
+    
+    - name: Pull nginx docker
+      shell: |
+        docker run --name my-nginx -v /var/www/html:/usr/share/nginx/html:ro -d -p 9080:80 nginx
+      become: yes
+    
     - name: Copy files
       copy:
         src: index.html
