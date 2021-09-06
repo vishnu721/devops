@@ -46,7 +46,7 @@ pipeline{
 
         stage("Run Ansible Playbook"){
             steps{
-                sh "ansible-playbook -u ec2-user --private-key ${env.WORKSPACE}/${var.key_name}.pem -i '${PRIVATE_IP}' provision_web.yml"
+                sh "ansible-playbook -u ec2-user --private-key LinuxServer.pem -i '${PRIVATE_IP}' provision_web.yml"
 
             }
         }
