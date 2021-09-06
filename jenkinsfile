@@ -51,7 +51,7 @@ pipeline{
             }
         }
 
-        stage{"Clean WS"}{
+        stage("Clean WS"){
             steps{
                 cleanWs cleanWhenAborted: false, cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenUnstable: false
             }
