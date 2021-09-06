@@ -39,6 +39,7 @@ pipeline{
                     ).trim()
 
                     println("${PUBLIC_IP}")
+                    sleep 300
                 }
                 
             }
